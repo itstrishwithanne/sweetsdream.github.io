@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sweet's Dream - CinnaTwist</title>
+  <link rel="stylesheet" href="product.css">
+</head>
+<body>
+    <!--Berry Whirl Section-->
+
+<!--CinnaTwist Section-->
+
+<div class="container" id="cinnatwist">
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+      <div class="main-image">
+        <img id="mainImg" src="img/pastry3.png" alt="CinnaTwist">
+        <div class="image-count">3</div>
+      </div>
+  
+    <!-- Thumbnails -->
+  <div class="thumbnails">
+  <img src="img/pastry3.png" alt="Classic Cinnamon Sugar" 
+       data-flavor="CLassic Cinnamon Sugar" data-price="180" 
+       data-description="Raspberry, blueberry, and strawberry blend." 
+       onclick="changeMainImage(this)">
+  
+  <img src="img/choco.png" alt="Choco-Cinna" 
+       data-flavor="Choco-Cinna" data-price="195" 
+       data-description="Cinnamon twist with chocolate drizzle." 
+       onclick="changeMainImage(this)">
+  
+  <img src="img/maple.png" alt="Maple Walnut" 
+       data-flavor="Maple Walnut" data-price="205" 
+       data-description="With maple glaze and chopped walnuts." 
+       onclick="changeMainImage(this)">
+  </div>
+  </div>
+  
+    <!-- Product Info -->
+    <div class="product-details">
+      <h2>CinnaTwist</h2>
+  
+      <!-- Flavor Badge -->
+  <p id="flavor-badge" class="flavor-badge">Classic Cinnamon Sugar</p>
+  
+  
+      <!-- Price Display -->
+      <p class="price" id="price">₱180</p>
+  
+      <!-- Short Description -->
+  <div class="section">
+  <p id="description"><strong>Twisted to perfection and coated in cinnamon sugar</strong> , this delightful pastry is a comforting classic with a playful crunch in every bite. Zesty lemon tartlet with a buttery shortcrust base and a velvety citrus filling.</p>
+  </div>
+  
+      <!-- Flavor Selector -->
+  <select id="flavor" onchange="updateFlavorDetails()">
+  <option value="Classic Cinnamon Sugar" data-price="180" data-image="img/pastry3.png" 
+          data-description="Raspberry, blueberry, and strawberry blend.">
+    Classic Cinnamon Sugar - ₱180
+  </option>
+  <option value="Choco-Cinna" data-price="195" data-image="img/choco.png" 
+          data-description=" Cinnamon twist with chocolate drizzle.">
+    Choco-Cinna - ₱195
+  </option>
+  <option value="Maple Walnut" data-price="205" data-image="img/maple.png" 
+          data-description="With maple glaze and chopped walnuts.">
+    Maple Walnut - ₱205
+  </option>
+  </select>
+  
+  
+      <!-- Ingredients -->
+      <div class="section">
+        <h4>Ingredients:</h4>
+        <p>Puff pastry, cinnamon, Chocolate, maple syrup, walnut, brown sugar, butter, icing glaze.</p>
+      </div>
+  
+      <!-- Quantity Selector -->
+      <label for="qty">Qty:</label>
+      <select id="qty" onchange="updateTotalPrice()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>      
+  
+ <!-- Group Button for Add-to-Cart and Index-button -->
+ <div class="button-group">
+    <button class="add-to-cart" onclick="addToCart()">Add to Cart</button>
+    <button class="index-button" onclick="goHome()">Back to Menu</button>
+  </div>
+  
+  </div>
+  
+  <!--CinnaTwist Section-->
+
+  <!-- JavaScript -->
+  <script>
+
+    // Change main image and update product details on thumbnail click
+function changeMainImage(thumbnail) {
+  const mainImg = document.getElementById('mainImg');
+  const priceEl = document.getElementById('price');
+  const descriptionEl = document.getElementById('description');
+  const flavorSelect = document.getElementById('flavor');
+
+  const newFlavor = thumbnail.getAttribute('data-flavor');
+  const newPrice = thumbnail.getAttribute('data-price');
+  const newDescription = thumbnail.getAttribute('data-description');
+  const newSrc = thumbnail.src;
+
+  mainImg.src = newSrc;
+  priceEl.textContent = `₱${newPrice}`;
+  descriptionEl.textContent = newDescription;
+
+  // Sync dropdown selection
+  for (let i = 0; i < flavorSelect.options.length; i++) {
+    if (flavorSelect.options[i].value === newFlavor) {
+      flavorSelect.selectedIndex = i;
+      break;
+    }
+  }
+
+document.getElementById('flavor-badge').textContent = newFlavor; 
+
+updateTotalPrice();
+
+}
+
+// Update details when changing flavor from dropdown
+function updateFlavorDetails() {
+  const flavorSelect = document.getElementById('flavor');
+  const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+
+  const price = selectedOption.getAttribute('data-price');
+  const imageSrc = selectedOption.getAttribute('data-image');
+  const description = selectedOption.getAttribute('data-description');
+
+  document.getElementById('price').textContent = `₱${price}`;
+  document.getElementById('mainImg').src = imageSrc;
+  document.getElementById('description').textContent = description;
+  document.getElementById('flavor-badge').textContent = selectedOption.value; 
+
+  updateTotalPrice();
+
+}
+  
+    // Add to cart logic
+    function addToCart() {
+      const qty = parseInt(document.getElementById('qty').value);
+      const flavorSelect = document.getElementById('flavor');
+      const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+  
+      const flavor = selectedOption.value;
+      const price = parseInt(selectedOption.getAttribute('data-price'));
+      const total = price * qty;
+  
+      const product = {
+        name: `CinnaTwist (${flavor})`,
+        flavor: flavor,
+        price: price,
+        quantity: qty,
+        total: total
+      };
+  
+      alert(`✅ Added to Cart:\n${qty} x ${product.name} = ₱${total}`);
+      console.log("Cart Item:", product);
+  
+    }
+
+    function updateTotalPrice() {
+  const qty = parseInt(document.getElementById('qty').value);
+  const flavorSelect = document.getElementById('flavor');
+  const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+  const basePrice = parseInt(selectedOption.getAttribute('data-price'));
+
+  const totalPrice = basePrice * qty;
+  document.getElementById('price').textContent = `₱${basePrice} x ${qty} = ₱${totalPrice}`;
+
+}
+
+function goHome() {
+  window.location.href = 'index.html'; 
+}
+
+  </script>
+  
+</body>
+</html>

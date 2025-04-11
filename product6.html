@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sweet's Dream - Almond Bloom</title>
+  <link rel="stylesheet" href="product.css">
+</head>
+<body>
+
+<!--Almond Bloom Section-->
+
+<div class="container" id="almondbloom">
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+      <div class="main-image">
+        <img id="mainImg" src="img/pastry6.png" alt="Almond Bloom">
+        <div class="image-count">6</div>
+      </div>
+  
+    <!-- Thumbnails -->
+  <div class="thumbnails">
+  <img src="img/pastry6.png" alt="Classic Almond" 
+       data-flavor="Classic Almond" data-price="250" 
+       data-description=" Rich almond frangipane filling." 
+       onclick="changeMainImage(this)">
+  
+  <img src="img/cherry.png" alt="Almond Cherry" 
+       data-flavor="Almond Cherry" data-price="295" 
+       data-description="Tart cherry bits blended with almond cream." 
+       onclick="changeMainImage(this)">
+  
+  <img src="img/mocha.png" alt="Almond Mocha" 
+       data-flavor="Almond Mocha" data-price="235" 
+       data-description="A mix of almond and espresso cream." 
+       onclick="changeMainImage(this)">
+  </div>
+  </div>
+  
+    <!-- Product Info -->
+    <div class="product-details">
+      <h2>Almond Bloom</h2>
+  
+      <!-- Flavor Badge -->
+  <p id="flavor-badge" class="flavor-badge">Classic Almond</p>
+  
+  
+      <!-- Price Display -->
+      <p class="price" id="price">₱235</p>
+  
+      <!-- Short Description -->
+  <div class="section">
+  <p id="description"><strong>Lightly crisp on the outside, luxuriously creamy inside—</strong> this almond-infused pastry is topped with toasted flakes for a nutty, elegant finish.
+  </p>
+  </div>
+  
+      <!-- Flavor Selector -->
+  <select id="flavor" onchange="updateFlavorDetails()">
+  <option value="Classic Almond" data-price="250" data-image="img/pastry6.png" 
+          data-description="Rich almond frangipane filling.-">
+    Classic Almond - ₱250
+  </option>
+  <option value="Almond Cherry" data-price="295" data-image="img/cherry.png" 
+          data-description="Tart cherry bits blended with almond cream">
+    Almond Cherry - ₱295
+  </option>
+  <option value="Almond Mocha" data-price="235" data-image="img/mocha.png" 
+          data-description="A mix of almond and espresso cream.">
+    Almond Mocha - ₱235
+  </option>
+  </select>
+  
+  
+      <!-- Ingredients -->
+      <div class="section">
+        <h4>Ingredients:</h4>
+        <p> Puff pastry, almond flour, butter, sugar, eggs, almond extract, sliced almonds, cherry, mocha.</p>
+      </div>
+  
+      <!-- Quantity Selector -->
+      <label for="qty">Qty:</label>
+      <select id="qty" onchange="updateTotalPrice()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>      
+  
+ <!-- Group Button for Add-to-Cart and Index-button -->
+ <div class="button-group">
+    <button class="add-to-cart" onclick="addToCart()">Add to Cart</button>
+    <button class="index-button" onclick="goHome()">Back to Menu</button>
+  </div>
+  
+  </div>
+  
+  <!--Almond Bloom Section-->
+
+  <!-- JavaScript -->
+  <script>
+
+    // Change main image and update product details on thumbnail click
+function changeMainImage(thumbnail) {
+  const mainImg = document.getElementById('mainImg');
+  const priceEl = document.getElementById('price');
+  const descriptionEl = document.getElementById('description');
+  const flavorSelect = document.getElementById('flavor');
+
+  const newFlavor = thumbnail.getAttribute('data-flavor');
+  const newPrice = thumbnail.getAttribute('data-price');
+  const newDescription = thumbnail.getAttribute('data-description');
+  const newSrc = thumbnail.src;
+
+  mainImg.src = newSrc;
+  priceEl.textContent = `₱${newPrice}`;
+  descriptionEl.textContent = newDescription;
+
+  // Sync dropdown selection
+  for (let i = 0; i < flavorSelect.options.length; i++) {
+    if (flavorSelect.options[i].value === newFlavor) {
+      flavorSelect.selectedIndex = i;
+      break;
+    }
+  }
+
+document.getElementById('flavor-badge').textContent = newFlavor; 
+
+updateTotalPrice();
+
+}
+
+// Update details when changing flavor from dropdown
+function updateFlavorDetails() {
+  const flavorSelect = document.getElementById('flavor');
+  const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+
+  const price = selectedOption.getAttribute('data-price');
+  const imageSrc = selectedOption.getAttribute('data-image');
+  const description = selectedOption.getAttribute('data-description');
+
+  document.getElementById('price').textContent = `₱${price}`;
+  document.getElementById('mainImg').src = imageSrc;
+  document.getElementById('description').textContent = description;
+  document.getElementById('flavor-badge').textContent = selectedOption.value; 
+
+  updateTotalPrice();
+
+}
+  
+    // Add to cart logic
+    function addToCart() {
+      const qty = parseInt(document.getElementById('qty').value);
+      const flavorSelect = document.getElementById('flavor');
+      const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+  
+      const flavor = selectedOption.value;
+      const price = parseInt(selectedOption.getAttribute('data-price'));
+      const total = price * qty;
+  
+      const product = {
+        name: `Almond Bloom (${flavor})`,
+        flavor: flavor,
+        price: price,
+        quantity: qty,
+        total: total
+      };
+  
+      alert(`✅ Added to Cart:\n${qty} x ${product.name} = ₱${total}`);
+      console.log("Cart Item:", product);
+  
+    }
+
+    function updateTotalPrice() {
+  const qty = parseInt(document.getElementById('qty').value);
+  const flavorSelect = document.getElementById('flavor');
+  const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+  const basePrice = parseInt(selectedOption.getAttribute('data-price'));
+
+  const totalPrice = basePrice * qty;
+  document.getElementById('price').textContent = `₱${basePrice} x ${qty} = ₱${totalPrice}`;
+
+}
+
+function goHome() {
+  window.location.href = 'index.html'; 
+}
+
+  </script>
+  
+</body>
+</html>

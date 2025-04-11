@@ -1,0 +1,121 @@
+/*styles2.css are design cllecion for the navigation bar were it appear and styles for about.html or about page*/
+
+html{
+    scroll-behavior: smooth;
+    background-color: burlywood;
+}
+
+.navbar {
+    background: rgba(255, 255, 255, 0.6); /* Semi-transparent */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: background 0.3s;
+  }
+  
+  .navbar a:hover {
+    color: chocolate !important;
+  }
+
+
+/*css code for about.html or about page*/
+  body {
+    background: url('img/pastry-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Poppins', sans-serif;
+    color: #5a3e36;
+}
+.content-section {
+    padding: 50px;
+    background: rgba(255, 250, 240, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin: 40px auto;
+    text-align: center;
+    max-width: 900px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.content-section:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+.content-section h2 {
+    color: #8B4513;
+    font-size: 38px;
+    font-family: 'Pacifico', cursive;
+    margin-bottom: 20px;
+    position: relative;
+}
+.content-section h2::after {
+    content: "";
+    display: block;
+    width: 70px;
+    height: 4px;
+    background: #D2691E;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+.content-section p, .content-section ul {
+    color: #5a3e36;
+    font-size: 20px;
+    line-height: 1.8;
+}
+.content-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+.content-section ul li {
+    padding: 12px 0;
+    font-weight: bold;
+    position: relative;
+    font-size: 18px;
+}
+.content-section ul li::before {
+    content: "\f004";
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    color: #D2691E;
+    margin-right: 12px;
+}
+.jumbotron {
+    background: url('img/bread1.png') no-repeat center;
+    background-size: cover;
+    padding: 120px 0;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+.jumbotron h1 {
+    font-size: 55px;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+}
+.jumbotron p a {
+    font-size: 22px;
+    color: #FFD700;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+.jumbotron p a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.content-section {
+    padding: 50px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 22px;
+}
+.content-section h2 {
+    color: brown;
+    border-bottom: 2px solid chocolate;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.content-section p {
+    color: #5a3e36;
+    font-size: 18px;
+    line-height: 1.6;
+}

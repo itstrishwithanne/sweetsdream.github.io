@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sweet's Dream - Velvet Puff</title>
+  <link rel="stylesheet" href="product.css">
+</head>
+<body>
+
+<!--Velvet Puff Section-->
+
+<div class="container" id="velvetpuff">
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+      <div class="main-image">
+        <img id="mainImg" src="img/pastry7.png" alt="Velvet Puff">
+        <div class="image-count">7</div>
+      </div>
+  
+    <!-- Thumbnails -->
+  <div class="thumbnails">
+  <img src="img/pastry7.png" alt="Vanilla Custard" 
+       data-flavor="Vanilla Custard" data-price="230" 
+       data-description=" Smooth and classic." 
+       onclick="changeMainImage(this)">
+  
+  <img src="img/puff1.png" alt="Chocolate Custard" 
+       data-flavor="Chocolate Custard" data-price="255" 
+       data-description="Silky cocoa-flavored filling." 
+       onclick="changeMainImage(this)">
+  
+  <img src="img/puff2.png" alt="Ube Custard" 
+       data-flavor="Ube Custard" data-price="265" 
+       data-description="Creamy Filipino ube twist." 
+       onclick="changeMainImage(this)">
+  </div>
+  </div>
+  
+    <!-- Product Info -->
+    <div class="product-details">
+      <h2>Velvet Puff</h2>
+  
+      <!-- Flavor Badge -->
+  <p id="flavor-badge" class="flavor-badge">Vanilla Custard</p>
+  
+  
+      <!-- Price Display -->
+      <p class="price" id="price">₱230</p>
+  
+      <!-- Short Description -->
+  <div class="section">
+  <p id="description"><strong>Soft, flaky layers with smooth vanilla custard and a hint of caramel glaze—</strong> this pastry is a velvety dream you won’t forget.</p>
+  </div>
+  
+      <!-- Flavor Selector -->
+  <select id="flavor" onchange="updateFlavorDetails()">
+  <option value="Vanilla Custard" data-price="230" data-image="img/pastry7.png" 
+          data-description="Smooth and classic.">
+    Vanilla Custard - ₱230
+  </option>
+  <option value="Chocolate Custard" data-price="255" data-image="img/puff1.png" 
+          data-description="Silky cocoa-flavored filling. ">
+    Chocolate Custard - ₱255
+  </option>
+  <option value="Ube Custard" data-price="265" data-image="img/puff2.png" 
+          data-description="Creamy Filipino ube twist.">
+    Ube Custard - ₱265
+  </option>
+  </select>
+  
+  
+      <!-- Ingredients -->
+      <div class="section">
+        <h4>Ingredients:</h4>
+        <p> Puff pastry, custard (milk, egg yolk, sugar, cornstarch, vanilla, chocolate, ube), caramel glaze.</p>
+      </div>
+      <!-- Quantity Selector -->
+      <label for="qty">Qty:</label>
+      <select id="qty" onchange="updateTotalPrice()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>      
+  
+       <!-- Group Button for Add-to-Cart and Index-button -->
+       <div class="button-group">
+        <button class="add-to-cart" onclick="addToCart()">Add to Cart</button>
+        <button class="index-button" onclick="goHome()">Back to Menu</button>
+      </div>
+  
+  </div>
+  
+  <!--Velvet Puff Section-->
+
+  <!-- JavaScript -->
+  <script>
+
+    // Change main image and update product details on thumbnail click
+function changeMainImage(thumbnail) {
+  const mainImg = document.getElementById('mainImg');
+  const priceEl = document.getElementById('price');
+  const descriptionEl = document.getElementById('description');
+  const flavorSelect = document.getElementById('flavor');
+
+  const newFlavor = thumbnail.getAttribute('data-flavor');
+  const newPrice = thumbnail.getAttribute('data-price');
+  const newDescription = thumbnail.getAttribute('data-description');
+  const newSrc = thumbnail.src;
+
+  mainImg.src = newSrc;
+  priceEl.textContent = `₱${newPrice}`;
+  descriptionEl.textContent = newDescription;
+
+  // Sync dropdown selection
+  for (let i = 0; i < flavorSelect.options.length; i++) {
+    if (flavorSelect.options[i].value === newFlavor) {
+      flavorSelect.selectedIndex = i;
+      break;
+    }
+  }
+
+document.getElementById('flavor-badge').textContent = newFlavor; 
+
+updateTotalPrice();
+
+}
+
+// Update details when changing flavor from dropdown
+function updateFlavorDetails() {
+  const flavorSelect = document.getElementById('flavor');
+  const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+
+  const price = selectedOption.getAttribute('data-price');
+  const imageSrc = selectedOption.getAttribute('data-image');
+  const description = selectedOption.getAttribute('data-description');
+
+  document.getElementById('price').textContent = `₱${price}`;
+  document.getElementById('mainImg').src = imageSrc;
+  document.getElementById('description').textContent = description;
+  document.getElementById('flavor-badge').textContent = selectedOption.value; 
+
+  updateTotalPrice();
+
+}
+  
+    // Add to cart logic
+    function addToCart() {
+      const qty = parseInt(document.getElementById('qty').value);
+      const flavorSelect = document.getElementById('flavor');
+      const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+  
+      const flavor = selectedOption.value;
+      const price = parseInt(selectedOption.getAttribute('data-price'));
+      const total = price * qty;
+  
+      const product = {
+        name: `Velvet Puff (${flavor})`,
+        flavor: flavor,
+        price: price,
+        quantity: qty,
+        total: total
+      };
+  
+      alert(`✅ Added to Cart:\n${qty} x ${product.name} = ₱${total}`);
+      console.log("Cart Item:", product);
+  
+    }
+
+    function updateTotalPrice() {
+  const qty = parseInt(document.getElementById('qty').value);
+  const flavorSelect = document.getElementById('flavor');
+  const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+  const basePrice = parseInt(selectedOption.getAttribute('data-price'));
+
+  const totalPrice = basePrice * qty;
+  document.getElementById('price').textContent = `₱${basePrice} x ${qty} = ₱${totalPrice}`;
+
+}
+
+function goHome() {
+  window.location.href = 'index.html'; 
+}
+
+  </script>
+  
+</body>
+</html>

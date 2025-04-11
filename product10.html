@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sweet's Dream - Hazel Crave</title>
+  <link rel="stylesheet" href="product.css">
+</head>
+<body>
+
+<!--Hazel Crave Section-->
+
+<div class="container" id="hazelcrave">
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+      <div class="main-image">
+        <img id="mainImg" src="img/pastry10.png" alt="Hazel Crave">
+        <div class="image-count">10</div>
+      </div>
+  
+    <!-- Thumbnails -->
+  <div class="thumbnails">
+  <img src="img/pastry10.png" alt="Classic Hazelnut Praline" 
+       data-flavor="Classic Hazelnut Praline" data-price="235" 
+       data-description="Rich and nutty." 
+       onclick="changeMainImage(this)">
+  
+  <img src="img/mocha1.png" alt="Mocha Hazelnut " 
+       data-flavor="Mocha Hazelnut " data-price="265" 
+       data-description="With espresso-chocolate flavor." 
+       onclick="changeMainImage(this)">
+  
+  <img src="img/hazel2.png" alt="Hazelnut Caramel Crunch" 
+       data-flavor="Hazelnut Caramel Crunch" data-price="290" 
+       data-description="With a layer of caramel and crispy toppings." 
+       onclick="changeMainImage(this)">
+  </div>
+  </div>
+  
+    <!-- Product Info -->
+    <div class="product-details">
+      <h2>Hazel Crave</h2>
+  
+      <!-- Flavor Badge -->
+  <p id="flavor-badge" class="flavor-badge">Classic Hazelnut Praline</p>
+  
+  
+      <!-- Price Display -->
+      <p class="price" id="price">₱215</p>
+  
+      <!-- Short Description -->
+  <div class="section">
+  <p id="description"><strong>Rich hazelnut praline</strong> wrapped in delicate pastry, topped with chocolate drizzle and crushed nuts—a decadent treat for those who crave luxury.</p>
+  </div>
+  
+      <!-- Flavor Selector -->
+  <select id="flavor" onchange="updateFlavorDetails()">
+  <option value="Classic Hazelnut Praline" data-price="235" data-image="img/pastry10.png" 
+          data-description="Rich and nutty. ">
+    Classic Hazelnut Praline - ₱235
+  </option>
+  <option value="Mocha Hazelnut" data-price="265" data-image="img/mocha1.png" 
+          data-description="With espresso-chocolate flavor.">
+    Mocha Hazelnut - ₱235
+  </option>
+  <option value="Hazelnut Caramel Crunch" data-price="290" data-image="img/hazel2.png" 
+          data-description="With a layer of caramel and crispy toppings.">
+    Hazelnut Caramel Crunch - ₱290
+  </option>
+  </select>
+  
+  
+      <!-- Ingredients -->
+      <div class="section">
+        <h4>Ingredients:</h4>
+        <p> Puff pastry, hazelnut spread, chopped hazelnuts, chocolate sauce, butter, sugar, mocha, caramel spread.</p>
+      </div>
+      <!-- Quantity Selector -->
+      <label for="qty">Qty:</label>
+      <select id="qty" onchange="updateTotalPrice()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>      
+  
+       <!-- Group Button for Add-to-Cart and Index-button -->
+       <div class="button-group">
+        <button class="add-to-cart" onclick="addToCart()">Add to Cart</button>
+        <button class="index-button" onclick="goHome()">Back to Menu</button>
+      </div>
+  
+  </div>
+
+<!--Hazel Crave Section-->
+
+  <!-- JavaScript -->
+  <script>
+
+    // Change main image and update product details on thumbnail click
+function changeMainImage(thumbnail) {
+  const mainImg = document.getElementById('mainImg');
+  const priceEl = document.getElementById('price');
+  const descriptionEl = document.getElementById('description');
+  const flavorSelect = document.getElementById('flavor');
+
+  const newFlavor = thumbnail.getAttribute('data-flavor');
+  const newPrice = thumbnail.getAttribute('data-price');
+  const newDescription = thumbnail.getAttribute('data-description');
+  const newSrc = thumbnail.src;
+
+  mainImg.src = newSrc;
+  priceEl.textContent = `₱${newPrice}`;
+  descriptionEl.textContent = newDescription;
+
+  // Sync dropdown selection
+  for (let i = 0; i < flavorSelect.options.length; i++) {
+    if (flavorSelect.options[i].value === newFlavor) {
+      flavorSelect.selectedIndex = i;
+      break;
+    }
+  }
+
+document.getElementById('flavor-badge').textContent = newFlavor; 
+
+updateTotalPrice();
+
+}
+
+// Update details when changing flavor from dropdown
+function updateFlavorDetails() {
+  const flavorSelect = document.getElementById('flavor');
+  const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+
+  const price = selectedOption.getAttribute('data-price');
+  const imageSrc = selectedOption.getAttribute('data-image');
+  const description = selectedOption.getAttribute('data-description');
+
+  document.getElementById('price').textContent = `₱${price}`;
+  document.getElementById('mainImg').src = imageSrc;
+  document.getElementById('description').textContent = description;
+  document.getElementById('flavor-badge').textContent = selectedOption.value; 
+
+  updateTotalPrice();
+
+}
+  
+    // Add to cart logic
+    function addToCart() {
+      const qty = parseInt(document.getElementById('qty').value);
+      const flavorSelect = document.getElementById('flavor');
+      const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+  
+      const flavor = selectedOption.value;
+      const price = parseInt(selectedOption.getAttribute('data-price'));
+      const total = price * qty;
+  
+      const product = {
+        name: `Hazel Crave (${flavor})`,
+        flavor: flavor,
+        price: price,
+        quantity: qty,
+        total: total
+      };
+  
+      alert(`✅ Added to Cart:\n${qty} x ${product.name} = ₱${total}`);
+      console.log("Cart Item:", product);
+  
+    }
+
+    function updateTotalPrice() {
+  const qty = parseInt(document.getElementById('qty').value);
+  const flavorSelect = document.getElementById('flavor');
+  const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+  const basePrice = parseInt(selectedOption.getAttribute('data-price'));
+
+  const totalPrice = basePrice * qty;
+  document.getElementById('price').textContent = `₱${basePrice} x ${qty} = ₱${totalPrice}`;
+
+}
+
+function goHome() {
+  window.location.href = 'index.html'; 
+}
+
+  </script>
+  
+</body>
+</html>
